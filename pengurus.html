@@ -120,7 +120,6 @@
         .detail-item:last-child { border: none; }
         .detail-label { font-weight: 700; color: var(--eco-medium); }
 
-        /* --- STYLES UNTUK TOMBOL SK PENGURUS --- */
         .sk-section {
             margin-top: 60px;
             text-align: center;
@@ -177,7 +176,7 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onload="document.body.style.opacity='1';">
+<body>
 
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -280,11 +279,26 @@
     </main>
 
     <script>
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    }
+        // FUNGSI UNTUK MENAMPILKAN HALAMAN
+        function showPage() {
+            document.body.style.opacity = '1';
+        }
 
-    window.scrollTo(0, 0);
+        // Tampilkan halaman saat load selesai
+        window.addEventListener('load', showPage);
+
+        // BFCache Fix: Pastikan halaman muncul kembali saat ditekan tombol "Back"
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                showPage();
+            }
+        });
+
+        // Reset scroll ke atas
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
     
         function toggleMenu(event) {
             event.stopPropagation();
@@ -312,6 +326,7 @@
             lastScrollTop = scrollTop;
         });
 
+        // Navigasi dengan efek transisi keluar
         document.querySelectorAll('nav a, .btn-sk').forEach(link => {
             link.addEventListener('click', function(e) {
                 if(this.classList.contains('active')) return;
