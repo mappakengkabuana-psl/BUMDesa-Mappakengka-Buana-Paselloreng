@@ -30,7 +30,7 @@
             min-height: 100vh;
             color: var(--text-main);
             overflow-x: hidden;
-            opacity: 0; /* Untuk transisi masuk */
+            opacity: 0;
             transition: opacity 0.6s ease-in-out;
             display: flex;
             flex-direction: column;
@@ -134,7 +134,7 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onload="document.body.style.opacity='1'; initChartsAndMore();">
+<body>
 
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -230,19 +230,29 @@
     </main>
 
     <script>
-        // 1. Tambahkan ini di paling atas script
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    }
+        // FUNGSI UTAMA TRANSISI
+        function showPage() {
+            document.body.style.opacity = '1';
+        }
 
-    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
-    window.scrollTo(0, 0);
+        // Jalankan saat load
+        window.addEventListener('load', () => {
+            showPage();
+            initChartsAndMore();
+        });
 
-    function toggleMenu(event) {
-        // ... kode toggleMenu Anda ...
-    }
-    
-        // SINKRONISASI LOGIKA NAVIGASI (Sama Persis dengan Hubungi Kami)
+        // BFCache Fix (Back Button)
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) showPage();
+        });
+
+        // Scroll Reset
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
+        // NAVIGATION LOGIC
         function toggleMenu(event) {
             event.stopPropagation();
             document.getElementById("nav-list").classList.toggle("show");
@@ -261,6 +271,7 @@
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             if (scrollTop > 50) navWrapper.classList.add('nav-scrolled');
             else navWrapper.classList.remove('nav-scrolled');
+            
             if (window.innerWidth > 768) {
                 if (scrollTop > lastScrollTop && scrollTop > 50) navWrapper.classList.add('nav-up');
                 else navWrapper.classList.remove('nav-up');
@@ -268,8 +279,8 @@
             lastScrollTop = scrollTop;
         });
 
-        // SINKRONISASI LOGIKA TRANSISI MENU (Sama Persis)
-        document.querySelectorAll('nav a').forEach(link => {
+        // MENU TRANSITION
+        document.querySelectorAll('nav a, .btn-view').forEach(link => {
             link.addEventListener('click', function(e) {
                 if(this.classList.contains('active')) return;
                 const target = this.getAttribute('href');
@@ -281,9 +292,8 @@
             });
         });
 
-        // FUNGSI INISIALISASI KHUSUS HALAMAN INI
+        // INISIALISASI KONTEN KHUSUS
         function initChartsAndMore() {
-            // Chart
             const ctx = document.getElementById('omzetChart').getContext('2d');
             new Chart(ctx, {
                 type: 'line',
@@ -298,17 +308,23 @@
                         tension: 0.4
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { 
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { labels: { font: { family: 'Plus Jakarta Sans', weight: 'bold' } } }
+                    }
+                }
             });
 
-            // Countdown
             const target = new Date("Jan 7, 2027 00:00:00").getTime();
             setInterval(() => {
                 const now = new Date().getTime();
                 const d = target - now;
                 const days = Math.floor(d / (1000 * 60 * 60 * 24));
                 const hours = Math.floor((d % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                document.getElementById("countdown").innerHTML = `${days} Hari : ${hours} Jam`;
+                const element = document.getElementById("countdown");
+                if(element) element.innerHTML = `${days} Hari : ${hours} Jam`;
             }, 1000);
         }
     </script>
