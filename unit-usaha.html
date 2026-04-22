@@ -105,7 +105,7 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onload="document.body.style.opacity='1';">
+<body>
 
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -169,18 +169,28 @@
     </main>
 
     <script>
-        // 1. Tambahkan ini di paling atas script
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    }
+        // FUNGSI UNTUK MENAMPILKAN HALAMAN
+        function showPage() {
+            document.body.style.opacity = '1';
+        }
 
-    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
-    window.scrollTo(0, 0);
+        // Tampilkan saat load normal
+        window.addEventListener('load', showPage);
 
-    function toggleMenu(event) {
-        // ... kode toggleMenu Anda ...
-    }
-    
+        // Tampilkan jika kembali melalui tombol Back (BFCache)
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                showPage();
+            }
+        });
+
+        // Reset scroll ke atas saat refresh
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
+        // Menu Toggle
         function toggleMenu(event) {
             event.stopPropagation();
             document.getElementById("nav-list").classList.toggle("show");
@@ -193,6 +203,7 @@
             }
         }
 
+        // Navbar Scroll Effect
         let lastScrollTop = 0;
         const navWrapper = document.getElementById('navWrapper');
         window.addEventListener('scroll', function() {
@@ -206,12 +217,14 @@
             lastScrollTop = scrollTop;
         });
 
+        // Fungsi Navigasi Halus
         function handleNavigation(event, url) {
             event.preventDefault();
             document.body.style.opacity = '0';
             setTimeout(() => { window.location.href = url; }, 600);
         }
 
+        // Listener untuk Link Navbar
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 const target = this.getAttribute('href');
