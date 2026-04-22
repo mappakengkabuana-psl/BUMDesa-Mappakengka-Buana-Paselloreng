@@ -34,7 +34,6 @@
             overflow-x: hidden;
             display: flex;
             flex-direction: column;
-            /* SINKRONISASI TRANSISI */
             opacity: 0;
             transition: opacity 0.6s ease-in-out;
         }
@@ -58,7 +57,7 @@
             100% { transform: translate(60px, 100px) scale(1.1); }
         }
 
-        /* --- NAVIGATION (SINKRON DENGAN HALAMAN LAIN) --- */
+        /* --- NAVIGATION --- */
         .nav-wrapper { 
             position: fixed; top: 0; width: 100%; z-index: 1000; 
             padding: 15px 20px; 
@@ -178,7 +177,7 @@
         }
     </style>
 </head>
-<body onload="document.body.style.opacity='1'">
+<body>
 
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -218,8 +217,8 @@
             <p style="font-size: 1.1rem; line-height: 1.6; color: var(--primary-green); margin: 0 auto; max-width: 90%;">
                 Membangun masa depan desa yang berkelanjutan melalui pemberdayaan potensi lokal.
             </p>
-            <a href="tentang-kami.html" class="btn-eco" onclick="navigate(event, 'tentang-kami.html')">
-                TENTANG KAMI <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
+            <a href="pendirian.html" class="btn-eco" onclick="navigate(event, 'pendirian.html')">
+                PELAJARI SELENGKAPNYA <i class="fas fa-chevron-right" style="margin-left: 10px;"></i>
             </a>
         </section>
     </main>
@@ -229,18 +228,25 @@
     </footer>
 
     <script>
-        // 1. Tambahkan ini di paling atas script
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    }
+        // 1. Inisialisasi Tampilan & Scroll
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
 
-    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
-    window.scrollTo(0, 0);
+        // Fungsi untuk menampilkan body (transisi masuk)
+        function showPage() {
+            document.body.style.opacity = '1';
+        }
 
-    function toggleMenu(event) {
-        // ... kode toggleMenu Anda ...
-    }
-        // LOGIKA NAVIGASI DENGAN FADE OUT
+        window.addEventListener('load', showPage);
+        
+        // Memastikan opacity kembali 1 jika user tekan tombol 'back'
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) showPage();
+        });
+
+        // 2. Logika Navigasi
         function navigate(event, url) {
             event.preventDefault();
             document.body.style.opacity = '0';
@@ -259,7 +265,7 @@
             }
         }
 
-        // SCROLL BEHAVIOR (SINKRON DENGAN HALAMAN LAIN)
+        // 3. Scroll Behavior (Sticky Header & Hide on Scroll)
         let lastScrollTop = 0;
         const navWrapper = document.getElementById('navWrapper');
         window.addEventListener('scroll', function() {
@@ -275,7 +281,7 @@
             lastScrollTop = scrollTop;
         });
 
-        // APPLY NAVIGASI KE SEMUA LINK MENU
+        // 4. Otomatisasi Transisi untuk Semua Menu
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 const href = this.getAttribute('href');
