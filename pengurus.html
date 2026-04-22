@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pengurus - BUMDesa Mappakengka Buana Paselloreng</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --primary-green: #0b2e26;
+            --eco-medium: #1e5128;
+            --eco-light: #4e944f;
+            --accent-lime: #b4ff9f;
+            --glass-bg: rgba(255, 255, 255, 0.35);
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --text-main: #0b2e26;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .bg-blobs { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; overflow: hidden; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 20s infinite alternate ease-in-out; }
+        .blob-1 { width: 500px; height: 500px; background: var(--eco-light); top: -10%; left: -5%; }
+        .blob-2 { width: 400px; height: 400px; background: var(--eco-medium); bottom: 10%; right: -5%; }
+        .blob-3 { width: 300px; height: 300px; background: var(--accent-lime); top: 30%; right: 10%; opacity: 0.2; }
+
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 80px); } }
+
+        .nav-wrapper { 
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
+            padding: 15px 20px; 
+            display: flex; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .nav-up { transform: translateY(-120%) !important; }
+        
+        nav { 
+            max-width: 1000px; width: auto;
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); border-radius: 100px; 
+            padding: 8px; box-shadow: 0 10px 30px rgba(11, 46, 38, 0.1); 
+            transition: all 0.3s ease;
+        }
+        .nav-scrolled nav { background: rgba(255, 255, 255, 0.85); max-width: 900px; }
+
+        nav ul { display: flex; list-style: none; gap: 5px; }
+        nav ul li a {
+            text-decoration: none; color: var(--primary-green);
+            font-weight: 700; font-size: 0.85rem; padding: 10px 18px;
+            border-radius: 50px; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px;
+            white-space: nowrap;
+        }
+        nav ul li a:hover, nav ul li a.active { background: var(--primary-green); color: var(--accent-lime); }
+
+        .hamburger-menu { display: none; cursor: pointer; padding: 10px; }
+        .hamburger-lines { width: 22px; height: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+        .line { height: 3px; width: 100%; background: var(--primary-green); border-radius: 10px; }
+
+        .content-area { flex: 1 0 auto; max-width: 1100px; margin: 120px auto 60px; padding: 0 20px; width: 100%; }
+
+        .header-title { text-align: center; padding-bottom: 50px; }
+        .header-title h1 { font-size: 2.8rem; color: var(--primary-green); font-weight: 900; margin-bottom: 10px; }
+
+        .organogram-grid { display: flex; flex-direction: column; gap: 30px; align-items: center; }
+        .row-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; max-width: 900px; }
+        .row-bottom { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; width: 100%; }
+
+        .member-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 35px;
+            padding: 35px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(11, 46, 38, 0.05);
+        }
+
+        .member-card:hover {
+            transform: translateY(-12px);
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--accent-lime);
+        }
+
+        .member-icon {
+            width: 70px; height: 70px;
+            background: var(--primary-green);
+            color: var(--accent-lime);
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 20px; font-size: 1.6rem;
+            margin: 0 auto 20px;
+            transition: 0.4s;
+        }
+
+        .member-card h3 { color: var(--primary-green); font-weight: 800; margin-bottom: 5px; font-size: 1.3rem; }
+        .member-card .position { font-weight: 700; color: var(--eco-light); text-transform: uppercase; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 15px; }
+        
+        .detail-box { background: rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 15px; text-align: left; font-size: 0.8rem; border: 1px solid rgba(255, 255, 255, 0.5); }
+        .detail-item { display: flex; justify-content: space-between; margin-bottom: 6px; border-bottom: 1px solid rgba(0,0,0,0.05); padding-bottom: 4px; }
+        .detail-item:last-child { border: none; }
+        .detail-label { font-weight: 700; color: var(--eco-medium); }
+
+        /* --- STYLES UNTUK TOMBOL SK PENGURUS --- */
+        .sk-section {
+            margin-top: 60px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .btn-sk {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 35px;
+            background: var(--primary-green);
+            color: var(--accent-lime);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(11, 46, 38, 0.2);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+
+        .btn-sk:hover {
+            transform: scale(1.05);
+            background: var(--eco-medium);
+            box-shadow: 0 15px 35px rgba(11, 46, 38, 0.3);
+            border-color: var(--accent-lime);
+        }
+
+        .btn-sk i {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-sk:hover i {
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 768px) {
+            .nav-wrapper { justify-content: flex-end; padding: 15px 20px; transform: none !important; }
+            nav { border-radius: 12px; padding: 0; background: rgba(255, 255, 255, 0.3); }
+            .hamburger-menu { display: block; }
+            nav ul {
+                display: none; flex-direction: column; position: absolute;
+                top: 65px; right: 20px; width: 240px;
+                background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
+                border-radius: 20px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid white;
+            }
+            nav ul.show { display: flex; animation: fadeInDown 0.3s ease-out forwards; }
+            .content-area { margin-top: 80px; }
+            .header-title h1 { font-size: 2.2rem; }
+        }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body onload="document.body.style.opacity='1';">
+
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="nav-wrapper" id="navWrapper">
+        <nav id="navbar">
+            <div class="hamburger-menu" onclick="toggleMenu(event)">
+                <div class="hamburger-lines">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+            </div>
+            <ul id="nav-list">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="pendirian.html"><i class="fas fa-seedling"></i> Pendirian</a></li>
+                <li><a href="unit-usaha.html"><i class="fas fa-tree"></i> Unit Usaha</a></li>
+                <li><a href="pengurus.html" class="active"><i class="fas fa-users"></i> Pengurus</a></li>
+                <li><a href="transparansi.html"><i class="fas fa-hand-holding-heart"></i> Transparansi</a></li>
+                <li><a href="hubungi.html"><i class="fas fa-envelope"></i> Hubungi</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="content-area">
+        <header class="header-title animate__animated animate__zoomIn">
+            <h1>Struktur Pengurus</h1>
+            <p style="color: var(--eco-medium); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem;">Manajemen BUMDesa Mappakengka Buana</p>
+        </header>
+
+        <div class="organogram-grid">
+            <div class="row-top">
+                <div class="member-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+                    <div class="member-icon"><i class="fas fa-crown"></i></div>
+                    <div class="position">Penasehat</div>
+                    <h3>Andi Fanzir, S.Pd</h3>
+                    <div class="detail-box">
+                        <div class="detail-item"><span class="detail-label">NIK:</span> <span>73***********001</span></div>
+                        <div class="detail-item"><span class="detail-label">TTL:</span> <span>Sakkoli, 25-01-19**</span></div>
+                        <div class="detail-item"><span class="detail-label">Alamat:</span> <span>Kelurahan Gilireng, Kec. Gilireng</span></div>
+                    </div>
+                </div>
+
+                <div class="member-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="member-icon"><i class="fas fa-user-shield"></i></div>
+                    <div class="position">Pengawas</div>
+                    <h3>Nurdin</h3>
+                    <div class="detail-box">
+                        <div class="detail-item"><span class="detail-label">NIK:</span> <span>73***********001</span></div>
+                        <div class="detail-item"><span class="detail-label">TTL:</span> <span>Kajuara, 09-05-19**</span></div>
+                        <div class="detail-item"><span class="detail-label">Alamat:</span> <span>Desa Paselloreng</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row-bottom">
+                <div class="member-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+                    <div class="member-icon"><i class="fas fa-briefcase"></i></div>
+                    <div class="position">Direktur</div>
+                    <h3>Satria Nurhidayat</h3>
+                    <div class="detail-box">
+                        <div class="detail-item"><span class="detail-label">NIK:</span> <span>73***********002</span></div>
+                        <div class="detail-item"><span class="detail-label">TTL:</span> <span>Caleko, 24-07-19**</span></div>
+                        <div class="detail-item"><span class="detail-label">Alamat:</span> <span>Desa Paselloreng</span></div>
+                    </div>
+                </div>
+
+                <div class="member-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="member-icon"><i class="fas fa-file-signature"></i></div>
+                    <div class="position">Sekretaris</div>
+                    <h3>Astuti Darapuspita</h3>
+                    <div class="detail-box">
+                        <div class="detail-item"><span class="detail-label">NIK:</span> <span>73***********001</span></div>
+                        <div class="detail-item"><span class="detail-label">TTL:</span> <span>Paselloreng, 10-02-19**</span></div>
+                        <div class="detail-item"><span class="detail-label">Alamat:</span> <span>Desa Paselloreng</span></div>
+                    </div>
+                </div>
+
+                <div class="member-card animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+                    <div class="member-icon"><i class="fas fa-coins"></i></div>
+                    <div class="position">Bendahara</div>
+                    <h3>Huri Damayanti</h3>
+                    <div class="detail-box">
+                        <div class="detail-item"><span class="detail-label">NIK:</span> <span>64***********001</span></div>
+                        <div class="detail-item"><span class="detail-label">TTL:</span> <span>Paselloreng, 08-10-19**</span></div>
+                        <div class="detail-item"><span class="detail-label">Alamat:</span> <span>Desa Paselloreng</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="sk-section animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <a href="sk-viewer.html" class="btn-sk">
+                <i class="fas fa-eye"></i> Lihat SK Pengurus
+            </a>
+        </div>
+    </main>
+
+    <script>
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+
+    window.scrollTo(0, 0);
+    
+        function toggleMenu(event) {
+            event.stopPropagation();
+            document.getElementById("nav-list").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            const navList = document.getElementById("nav-list");
+            if (!event.target.closest('nav') && navList.classList.contains('show')) {
+                navList.classList.remove('show');
+            }
+        }
+
+        let lastScrollTop = 0;
+        const navWrapper = document.getElementById('navWrapper');
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 50) navWrapper.classList.add('nav-scrolled');
+            else navWrapper.classList.remove('nav-scrolled');
+            
+            if (window.innerWidth > 768) {
+                if (scrollTop > lastScrollTop && scrollTop > 50) navWrapper.classList.add('nav-up');
+                else navWrapper.classList.remove('nav-up');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        document.querySelectorAll('nav a, .btn-sk').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if(this.classList.contains('active')) return;
+                const target = this.getAttribute('href');
+                if(target && !target.includes('#')) {
+                    e.preventDefault();
+                    document.body.style.opacity = '0';
+                    setTimeout(() => { window.location.href = target; }, 600);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

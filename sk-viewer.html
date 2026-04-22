@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SK Pengurus - BUMDesa Mappakengka Buana Paselloreng</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --primary-green: #0b2e26;
+            --eco-medium: #1e5128;
+            --eco-light: #4e944f;
+            --accent-lime: #b4ff9f;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-main: #0b2e26;
+        }
+
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        /* --- BACKGROUND BLOBS --- */
+        .bg-blobs {
+            position: fixed;
+            width: 100%; height: 100%;
+            top: 0; left: 0; z-index: -1;
+        }
+
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(100px);
+            opacity: 0.5; animation: float 20s infinite alternate ease-in-out;
+        }
+
+        .blob-1 { width: 500px; height: 500px; background: var(--eco-light); top: -10%; left: -5%; }
+        .blob-2 { width: 400px; height: 400px; background: var(--eco-medium); bottom: 10%; right: -5%; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 80px); }
+        }
+
+        /* --- CONTENT AREA --- */
+        .content-area {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 25px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary-green);
+            color: var(--accent-lime);
+            transform: translateX(-5px);
+        }
+
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 35px;
+            border: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-weight: 900;
+            font-size: 2.2rem;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+        }
+
+        .sub-header {
+            color: var(--eco-medium);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+        }
+
+        .download-btn {
+            background: var(--primary-green);
+            color: var(--accent-lime);
+            padding: 16px 32px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 15px 30px rgba(11, 46, 38, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: var(--eco-medium);
+            box-shadow: 0 20px 40px rgba(11, 46, 38, 0.3);
+        }
+
+        /* --- PDF VIEWER CONTAINER --- */
+        .pdf-container {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 15px;
+            box-shadow: 0 30px 60px rgba(11, 46, 38, 0.1);
+            height: 85vh; 
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            border: none;
+            background: white;
+        }
+
+        .pdf-fallback {
+            padding: 40px;
+            text-align: center;
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 25px;
+            }
+            .pdf-container {
+                height: 70vh;
+                border-radius: 30px;
+            }
+            h1 { font-size: 1.8rem; }
+            .download-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="content-area">
+        <a href="pengurus.html" class="back-btn animate__animated animate__fadeInLeft">
+            <i class="fas fa-arrow-left"></i> Kembali ke Pengurus
+        </a>
+
+        <div class="header-section animate__animated animate__fadeIn">
+            <div>
+                <p class="sub-header">Dokumen Legalitas</p>
+                <h1>SK Pengurus BUMDesa</h1>
+                <p style="color: var(--eco-medium); font-weight: 500;">Salinan Surat Keputusan Kepengurusan BUMDesa Mappakengka</p>
+            </div>
+            
+            <a href="dokumen/sk.pdf" download="SK-Pengurus-BUMDesa.pdf" class="download-btn">
+                <i class="fas fa-file-pdf"></i> Unduh Dokumen
+            </a>
+        </div>
+
+        <section class="pdf-container animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <iframe 
+                src="dokumen/sk.pdf#toolbar=0&navpanes=0&view=FitH" 
+                type="application/pdf">
+                <div class="pdf-fallback">
+                    <i class="fas fa-file-pdf" style="font-size: 3rem; color: var(--eco-light); margin-bottom: 20px;"></i>
+                    <p>Browser Anda tidak mendukung pratinjau PDF langsung.</p>
+                    <a href="dokumen/sk.pdf" class="download-btn" style="margin-top: 20px; display: inline-flex;">Klik untuk Melihat Dokumen</a>
+                </div>
+            </iframe>
+        </section>
+
+        <footer style="text-align: center; margin-top: 40px; color: var(--eco-medium); font-size: 0.85rem; font-weight: 600;" class="animate__animated animate__fadeIn">
+            &copy; 2026 BUMDesa Mappakengka Buana Paselloreng. Hak Cipta Dilindungi.
+        </footer>
+    </main>
+
+    <script>
+        // Efek transisi halus saat keluar halaman
+        document.querySelector('.back-btn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = this.getAttribute('href');
+            document.body.style.opacity = '0';
+            setTimeout(() => { window.location.href = target; }, 600);
+        });
+    </script>
+
+</body>
+</html>

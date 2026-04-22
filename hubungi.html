@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hubungi Kami - BUMDesa Mappakengka Buana Paselloreng</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        :root {
+            --primary-green: #0b2e26;    
+            --eco-medium: #1e5128;      
+            --eco-light: #4e944f;       
+            --accent-lime: #b4ff9f;     
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --text-main: #0b2e26;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .bg-blobs { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; overflow: hidden; }
+        .blob { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.5; animation: float 20s infinite alternate ease-in-out; }
+        .blob-1 { width: 500px; height: 500px; background: var(--eco-light); top: -10%; left: -5%; }
+        .blob-2 { width: 400px; height: 400px; background: var(--eco-medium); bottom: 10%; right: -5%; }
+        @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 80px); } }
+
+        /* --- NAVIGATION (Brand Removed) --- */
+        .nav-wrapper { 
+            position: fixed; top: 0; width: 100%; z-index: 1000; 
+            padding: 15px 20px; 
+            display: flex; justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); 
+        }
+        .nav-up { transform: translateY(-120%) !important; }
+        nav { 
+            max-width: 1000px; width: auto;
+            background: rgba(255, 255, 255, 0.2); 
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); 
+            border: 1px solid var(--glass-border); border-radius: 100px; 
+            padding: 8px; box-shadow: 0 10px 30px rgba(11, 46, 38, 0.1); 
+            transition: all 0.3s ease;
+        }
+        .nav-scrolled nav { background: rgba(255, 255, 255, 0.85); max-width: 900px; }
+        nav ul { display: flex; justify-content: center; list-style: none; gap: 5px; }
+        nav ul li a { 
+            text-decoration: none; color: var(--primary-green); font-weight: 700; 
+            font-size: 0.85rem; padding: 10px 18px; border-radius: 50px; 
+            transition: 0.3s; display: flex; align-items: center; gap: 8px; 
+        }
+        nav ul li a:hover, nav ul li a.active { background: var(--primary-green); color: var(--accent-lime); }
+
+        .hamburger-menu { display: none; cursor: pointer; padding: 10px; }
+        .hamburger-lines { width: 22px; height: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+        .line { height: 3px; width: 100%; background-color: var(--primary-green); border-radius: 10px; }
+
+        /* --- CONTENT AREA --- */
+        .content-area { max-width: 1100px; margin: 120px auto 60px; padding: 0 20px; }
+        .header-title { text-align: center; padding-bottom: 50px; }
+        .header-title h1 { font-size: 2.8rem; color: var(--primary-green); font-weight: 900; margin-bottom: 10px; }
+
+        /* --- CONTACT GRID --- */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 30px; }
+        .contact-info { display: flex; flex-direction: column; gap: 20px; }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .contact-card:hover {
+            transform: translateX(15px);
+            background: rgba(255, 255, 255, 0.6);
+            border-color: var(--accent-lime);
+        }
+
+        .icon-box {
+            width: 60px; height: 60px;
+            background: var(--primary-green);
+            color: white;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+            transition: 0.4s;
+        }
+
+        .contact-card:hover .icon-box { transform: rotate(15deg) scale(1.1); color: var(--accent-lime); }
+
+        .contact-text h3 { font-size: 0.8rem; color: var(--eco-medium); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; }
+        .contact-text p { font-size: 1.05rem; color: var(--primary-green); font-weight: 800; }
+
+        /* --- MAP BOX --- */
+        .map-box {
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--glass-border);
+            padding: 12px;
+            border-radius: 35px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(11, 46, 38, 0.05);
+        }
+
+        .map-box iframe { width: 100%; height: 100%; border-radius: 25px; min-height: 400px; }
+
+        /* --- FORM SECTION --- */
+        .form-section {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 40px;
+            padding: 45px;
+        }
+
+        .form-title { margin-bottom: 35px; color: var(--primary-green); display: flex; align-items: center; gap: 15px; }
+
+        .feedback-form { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .form-group { display: flex; flex-direction: column; gap: 10px; }
+        .form-group.full { grid-column: span 2; }
+        .form-group label { font-size: 0.85rem; font-weight: 800; color: var(--eco-medium); padding-left: 5px; }
+
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 18px;
+            border-radius: 20px;
+            border: 1px solid rgba(11, 46, 38, 0.1);
+            background: white;
+            font-size: 0.95rem;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--eco-light);
+            box-shadow: 0 0 20px rgba(78, 148, 79, 0.15);
+        }
+
+        .btn-submit {
+            grid-column: span 2;
+            padding: 20px;
+            border-radius: 20px;
+            border: none;
+            background: var(--primary-green);
+            color: var(--accent-lime);
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.4s;
+            display: flex; align-items: center; justify-content: center; gap: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            background: var(--eco-medium);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(11, 46, 38, 0.2);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .contact-grid { grid-template-columns: 1fr; }
+            .feedback-form { grid-template-columns: 1fr; }
+            .form-group.full, .btn-submit { grid-column: span 1; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-wrapper { justify-content: flex-end; padding: 15px 20px; transform: none !important; }
+            nav { border-radius: 12px; padding: 0; background: rgba(255, 255, 255, 0.3); }
+            .hamburger-menu { display: block; }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 65px; right: 20px;
+                width: 240px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                border: 1px solid white;
+            }
+            nav ul.show { display: flex; animation: fadeInDown 0.3s ease-out forwards; }
+            .content-area { margin-top: 80px; }
+            .header-title h1 { font-size: 2.2rem; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="nav-wrapper" id="navWrapper">
+        <nav id="navbar">
+            <div class="hamburger-menu" onclick="toggleMenu(event)">
+                <div class="hamburger-lines">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+            </div>
+            <ul id="nav-list">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="pendirian.html"><i class="fas fa-seedling"></i> Pendirian</a></li>
+                <li><a href="unit-usaha.html"><i class="fas fa-tree"></i> Unit Usaha</a></li>
+                <li><a href="pengurus.html"><i class="fas fa-users"></i> Pengurus</a></li>
+                <li><a href="transparansi.html"><i class="fas fa-hand-holding-heart"></i> Transparansi</a></li>
+                <li><a href="hubungi.html" class="active"><i class="fas fa-envelope"></i> Hubungi</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="content-area">
+        <header class="header-title animate__animated animate__zoomIn">
+            <h1>Hubungi Kami</h1>
+            <p style="color: var(--eco-medium); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.85rem;">Layanan Informasi & Kemitraan Strategis</p>
+        </header>
+
+        <div class="contact-grid">
+            <div class="contact-info">
+                <a href="https://wa.me/6285314101659" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.1s;" target="_blank">
+                    <div class="icon-box" style="background: #25D366;"><i class="fab fa-whatsapp"></i></div>
+                    <div class="contact-text">
+                        <h3>WhatsApp Layanan</h3>
+                        <p>+62 853-1410-1659</p>
+                    </div>
+                </a>
+
+                <a href="mailto:mappakengka@gmail.com" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;" target="_blank">
+                    <div class="icon-box" style="background: #EA4335;"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-text">
+                        <h3>Email Resmi</h3>
+                        <p>mappakengka@gmail.com</p>
+                    </div>
+                </a>
+
+                <a href="https://facebook.com" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;" target="_blank">
+                    <div class="icon-box" style="background: #1877F2;"><i class="fab fa-facebook-f"></i></div>
+                    <div class="contact-text">
+                        <h3>Media Sosial</h3>
+                        <p>BUM Desa Mappakengka</p>
+                    </div>
+                </a>
+
+                <div class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.4s;">
+                    <div class="icon-box" style="background: var(--primary-green);"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="contact-text">
+                        <h3>Lokasi Kantor</h3>
+                        <p>Desa Paselloreng, Wajo</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-box animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15918.069792621455!2d120.1472855!3d-3.9555021!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d95e54d39f7f457%3A0xc3f58a706598991a!2sPaselloreng%2C%20Kec.%20Gilireng%2C%20Kabupaten%20Wajo%2C%20Sulawesi%20Selatan!5e0!3m2!1sid!2sid!4v1713430000000!5m2!1sid!2sid" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+
+        <section class="form-section animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <div class="form-title">
+                <div style="width: 50px; height: 50px; background: var(--accent-lime); border-radius: 15px; display: flex; align-items: center; justify-content: center; color: var(--primary-green); font-size: 1.5rem;">
+                    <i class="fas fa-comment-dots"></i>
+                </div>
+                <h2 style="font-weight: 900; letter-spacing: -1px;">Kotak Aspirasi & Kerjasama</h2>
+            </div>
+            
+            <form id="feedbackForm" action="https://formspree.io/f/xvzdbbze" method="POST" class="feedback-form">
+                <div class="form-group">
+                    <label for="nama">Nama Lengkap</label>
+                    <input type="text" id="nama" name="nama" placeholder="Tuliskan nama Anda..." required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Alamat Email</label>
+                    <input type="email" id="email" name="_replyto" placeholder="email@contoh.com" required>
+                </div>
+
+                <div class="form-group full">
+                    <label for="jabatan">Kategori Pengirim</label>
+                    <select id="jabatan" name="jabatan" required>
+                        <option value="" disabled selected>Pilih Kategori...</option>
+                        <option value="Masyarakat Umum">Masyarakat Umum</option>
+                        <option value="Mitra Bisnis">Calon Mitra Bisnis</option>
+                        <option value="Pemerintah">Instansi Pemerintah</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                </div>
+
+                <div class="form-group full">
+                    <label for="pesan">Pesan, Kritik, atau Saran</label>
+                    <textarea id="pesan" name="kritik_saran" rows="5" placeholder="Tuliskan pesan Anda secara detail..." required></textarea>
+                </div>
+
+                <button type="submit" id="submitBtn" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Kirim Pesan Sekarang
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // 1. Tambahkan ini di paling atas script
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+
+    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
+    window.scrollTo(0, 0);
+
+    function toggleMenu(event) {
+        // ... kode toggleMenu Anda ...
+    }
+        function toggleMenu(event) {
+            event.stopPropagation();
+            document.getElementById("nav-list").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            const navList = document.getElementById("nav-list");
+            if (!event.target.closest('nav') && navList.classList.contains('show')) {
+                navList.classList.remove('show');
+            }
+        }
+
+        let lastScrollTop = 0;
+        const navWrapper = document.getElementById('navWrapper');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            if (scrollTop > 50) navWrapper.classList.add('nav-scrolled');
+            else navWrapper.classList.remove('nav-scrolled');
+
+            if (window.innerWidth > 768) {
+                if (scrollTop > lastScrollTop && scrollTop > 50) navWrapper.classList.add('nav-up');
+                else navWrapper.classList.remove('nav-up');
+            }
+            lastScrollTop = scrollTop;
+        });
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if(this.classList.contains('active')) return;
+                const target = this.getAttribute('href');
+                if(target && !target.includes('#')) {
+                    e.preventDefault();
+                    document.body.style.opacity = '0';
+                    setTimeout(() => { window.location.href = target; }, 600);
+                }
+            });
+        });
+
+        const form = document.getElementById('feedbackForm');
+        const btn = document.getElementById('submitBtn');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const originalBtnContent = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Mengirim...';
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(this),
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    Swal.fire({
+                        title: 'Pesan Terkirim!',
+                        text: 'Terima kasih, aspirasi Anda sangat berarti bagi kami.',
+                        icon: 'success',
+                        confirmButtonColor: '#0b2e26'
+                    });
+                    form.reset();
+                } else throw new Error();
+            } catch (error) {
+                Swal.fire({
+                    title: 'Gagal Mengirim',
+                    text: 'Silakan coba lagi atau hubungi via WhatsApp.',
+                    icon: 'error',
+                    confirmButtonColor: '#EA4335'
+                });
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalBtnContent;
+            }
+        });
+    </script>
+</body>
+</html>

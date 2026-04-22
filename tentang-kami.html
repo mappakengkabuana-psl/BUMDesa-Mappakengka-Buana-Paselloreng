@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang Kami - BUMDesa Mappakengka Buana Paselloreng</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --primary-green: #0b2e26;
+            --eco-medium: #1e5128;
+            --eco-light: #4e944f;
+            --accent-lime: #b4ff9f;
+            --glass-border: rgba(255, 255, 255, 0.25);
+            --text-main: #0b2e26;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-main);
+            overflow-x: hidden;
+            transition: opacity 0.6s ease-in-out;
+            opacity: 0; 
+        }
+
+        /* --- BACKGROUND BLOBS --- */
+        .bg-blobs {
+            position: fixed; width: 100%; height: 100%;
+            top: 0; left: 0; z-index: -1; overflow: hidden;
+        }
+        .blob {
+            position: absolute; border-radius: 50%; filter: blur(100px);
+            opacity: 0.5; animation: float 20s infinite alternate ease-in-out;
+        }
+        .blob-1 { width: 500px; height: 500px; background: var(--eco-light); top: -10%; left: -5%; }
+        .blob-2 { width: 400px; height: 400px; background: var(--eco-medium); bottom: 10%; right: -5%; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 80px); }
+        }
+
+        /* --- NAVIGATION --- */
+        .nav-wrapper {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nav-up { transform: translateY(-120%) !important; }
+        nav {
+            max-width: 1000px; width: auto;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border); border-radius: 100px;
+            padding: 8px; box-shadow: 0 10px 30px rgba(11, 46, 38, 0.1);
+            transition: all 0.3s ease;
+        }
+        .nav-scrolled nav { background: rgba(255, 255, 255, 0.85); max-width: 900px; }
+        nav ul { display: flex; justify-content: center; list-style: none; gap: 5px; }
+        nav ul li a {
+            text-decoration: none; color: var(--primary-green);
+            font-weight: 700; font-size: 0.85rem; padding: 10px 18px;
+            border-radius: 50px; transition: 0.3s;
+            display: flex; align-items: center; gap: 8px;
+        }
+        nav ul li a:hover, nav ul li a.active { background: var(--primary-green); color: var(--accent-lime); }
+
+        /* --- HAMBURGER MENU --- */
+        .hamburger-menu {
+            display: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+        .hamburger-lines {
+            width: 22px; height: 16px;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+        .line { height: 3px; width: 100%; background-color: var(--primary-green); border-radius: 10px; }
+
+        /* --- CONTENT AREA --- */
+        .content-area {
+            max-width: 1100px;
+            margin: 120px auto 60px;
+            padding: 0 20px;
+        }
+
+        .hero-about {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        .hero-about h1 {
+            font-size: 3rem;
+            color: var(--primary-green);
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 15px;
+        }
+
+        /* --- POTENSI GRID --- */
+        .potensi-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-bottom: 100px;
+        }
+
+        .potensi-image {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            transition: all 0.5s ease;
+        }
+        .potensi-image:hover { transform: scale(1.02); border-color: var(--accent-lime); }
+        .potensi-image img { width: 100%; border-radius: 30px; display: block; }
+
+        .potensi-text h2 {
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+        .potensi-text p {
+            line-height: 1.8;
+            color: var(--primary-green);
+            opacity: 0.85;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        /* --- STATS CARD --- */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.5);
+            padding: 20px;
+            border-radius: 30px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .stat-card:hover { 
+            transform: translateY(-10px); 
+            background: var(--primary-green); 
+            border-color: var(--accent-lime);
+        }
+        .stat-card:hover h4, .stat-card:hover p { color: white; }
+        .stat-card i { font-size: 1.8rem; color: var(--eco-light); margin-bottom: 12px; }
+        .stat-card h4 { font-size: 1.6rem; color: var(--primary-green); font-weight: 800; transition: 0.3s; }
+        .stat-card p { font-size: 0.75rem; font-weight: 700; color: var(--eco-medium); text-transform: uppercase; transition: 0.3s; }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+            .potensi-section { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .potensi-section.reverse { direction: ltr; }
+            .hero-about h1 { font-size: 2.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-wrapper { 
+                justify-content: flex-end; 
+                padding: 15px 20px;
+                transform: none !important; 
+            }
+            nav { border-radius: 12px; padding: 0; background: rgba(255, 255, 255, 0.3); }
+            .hamburger-menu { display: block; }
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 65px; right: 20px;
+                width: 240px;
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(20px);
+                border-radius: 20px;
+                padding: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+                border: 1px solid white;
+            }
+            nav ul.show { display: flex; animation: fadeInDown 0.3s ease-out forwards; }
+            .content-area { margin-top: 80px; }
+            .stats-container { grid-template-columns: 1fr; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <div class="nav-wrapper" id="navWrapper">
+        <nav id="navbar">
+            <div class="hamburger-menu" onclick="toggleMenu(event)">
+                <div class="hamburger-lines">
+                    <span class="line"></span>
+                    <span class="line"></span>
+                    <span class="line"></span>
+                </div>
+            </div>
+            <ul id="nav-list">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="pendirian.html"><i class="fas fa-seedling"></i> Pendirian</a></li>
+                <li><a href="unit-usaha.html"><i class="fas fa-tree"></i> Unit Usaha</a></li>
+                <li><a href="pengurus.html"><i class="fas fa-users"></i> Pengurus</a></li>
+                <li><a href="transparansi.html"><i class="fas fa-hand-holding-heart"></i> Transparansi</a></li>
+                <li><a href="hubungi.html"><i class="fas fa-envelope"></i> Hubungi</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main class="content-area">
+        <header class="hero-about animate__animated animate__zoomIn">
+            <span style="color: var(--eco-medium); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem;">Profil</span>
+            <h1>Mengenal Lebih Dekat</h1>
+            <p style="color: var(--eco-medium); font-weight: 600; max-width: 750px; margin: 0 auto; line-height: 1.6; opacity: 0.8;">Sinergi antara kearifan lokal, potensi alam yang melimpah, dan semangat gotong royong masyarakat dalam membangun ekonomi desa yang mandiri.</p>
+        </header>
+
+        <section class="potensi-section animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="potensi-image">
+                <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Pertanian Paselloreng">
+            </div>
+            <div class="potensi-text">
+                <h2>Potensi Pertanian & Alam</h2>
+                <p>Paselloreng dikaruniai tanah yang subur dan hamparan sawah yang luas. Melalui BUMDesa Mappakengka Buana, kami berkomitmen mengelola hasil bumi ini agar memberikan manfaat maksimal langsung kepada para petani lokal.</p>
+                
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <i class="fas fa-seedling"></i>
+                        <h4>85%</h4>
+                        <p>Lahan Subur</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-users"></i>
+                        <h4>1.200+</h4>
+                        <p>Warga Tani</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-cloud-sun-rain"></i>
+                        <h4>Melimpah</h4>
+                        <p>Hasil Alam</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="potensi-section reverse animate__animated animate__fadeInUp" style="direction: rtl; animation-delay: 0.4s;">
+            <div class="potensi-image" style="direction: ltr;">
+                <img src="images/logo.png" alt="Inovasi Desa">
+            </div>
+            <div class="potensi-text" style="direction: ltr;">
+                <h2>Pilar ekonomi Desa</h2>
+                <p>Kami mengelola unit usaha strategis yang dirancang untuk kemandirian warga</p>
+                <p>Kami berkomitmen menghadirkan inovasi di setiap lini, memastikan potensi masyarakat mendapatkan ruang tumbuh yang layak demi ekonomi desa yang tangguh.</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // 1. Tambahkan ini di paling atas script
+    if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+    }
+
+    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
+    window.scrollTo(0, 0);
+
+    function toggleMenu(event) {
+        // ... kode toggleMenu Anda ...
+    }
+    
+        function toggleMenu(event) {
+            event.stopPropagation();
+            document.getElementById("nav-list").classList.toggle("show");
+        }
+
+        window.onclick = function(event) {
+            const navList = document.getElementById("nav-list");
+            if (!event.target.closest('nav') && navList.classList.contains('show')) {
+                navList.classList.remove('show');
+            }
+        }
+
+        let lastScrollTop = 0;
+        const delta = 5;
+        const navWrapper = document.getElementById('navWrapper');
+
+        window.addEventListener('scroll', function() {
+            let st = window.pageYOffset || document.documentElement.scrollTop;
+            
+            if (st > 50) {
+                navWrapper.classList.add('nav-scrolled');
+            } else {
+                navWrapper.classList.remove('nav-scrolled');
+            }
+
+            if (window.innerWidth > 768) {
+                if (Math.abs(lastScrollTop - st) <= delta) return;
+
+                if (st > lastScrollTop && st > 50) {
+                    navWrapper.classList.add('nav-up');
+                } else {
+                    navWrapper.classList.remove('nav-up');
+                }
+            }
+            lastScrollTop = st;
+        });
+
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if(!this.classList.contains('active')) {
+                    const target = this.getAttribute('href');
+                    if(target && !target.includes('#')) {
+                        e.preventDefault();
+                        document.body.style.opacity = '0';
+                        setTimeout(() => { window.location.href = target; }, 600);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transparansi 2023 - BUMDesa Mappakengka</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <style>
+        :root {
+            --primary-green: #0b2e26;
+            --eco-medium: #1e5128;
+            --eco-light: #4e944f;
+            --accent-gold: #c5a021;
+            --accent-lime: #b4ff9f;
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --text-main: #0b2e26;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: var(--text-main);
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.6s ease-in-out;
+        }
+
+        .container { max-width: 1050px; margin: 0 auto; }
+
+        /* --- HEADER --- */
+        header { text-align: center; margin-bottom: 35px; }
+        
+        .back-nav {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .back-link { 
+            text-decoration: none; 
+            color: var(--primary-green); 
+            font-weight: 700; 
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px;
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+        .back-link:hover { transform: translateX(-5px); background: var(--primary-green); color: var(--accent-lime); }
+
+        h1 { font-weight: 900; font-size: 2.2rem; letter-spacing: -1px; color: var(--primary-green); }
+
+        /* --- TAB NAVIGATION --- */
+        .doc-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateY(-5px);
+        }
+
+        .tab-btn i { font-size: 1.5rem; color: var(--primary-green); margin-bottom: 10px; display: block; opacity: 0.7; }
+        .tab-btn span { font-size: 0.9rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: var(--primary-green); }
+        
+        .tab-btn.active { 
+            background: var(--primary-green); 
+            border-color: var(--primary-green);
+            box-shadow: 0 10px 25px rgba(11, 46, 38, 0.2);
+        }
+        .tab-btn.active i { color: var(--accent-lime); opacity: 1; }
+        .tab-btn.active span { color: white; }
+
+        /* --- VIEWER CARD --- */
+        .viewer-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            border-radius: 40px;
+            padding: 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 25px 50px rgba(11, 46, 38, 0.08);
+            min-height: 600px;
+        }
+
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(11, 46, 38, 0.05);
+        }
+
+        .btn-download {
+            background: var(--primary-green);
+            color: var(--accent-lime);
+            padding: 12px 25px;
+            border-radius: 100px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center; gap: 10px;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-download:hover { transform: scale(1.05); background: var(--eco-medium); }
+
+        /* --- CONTENT AREAS --- */
+        .content-pane { display: none; }
+        .content-pane.active { display: block; animation: slideUpFade 0.6s ease-out; }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-frame {
+            width: 100%; height: 700px;
+            border-radius: 25px; 
+            background: white;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        /* --- SLIDER DOKUMENTASI --- */
+        .slider-container {
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .slider-wrapper { display: flex; transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide { min-width: 100%; position: relative; }
+        .slide img { width: 100%; height: 550px; object-fit: cover; display: block; }
+        
+        .slide-caption {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(11, 46, 38, 0.95));
+            color: white;
+            padding: 60px 30px 30px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .nav-btn {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px);
+            border: 1px solid white; width: 55px; height: 55px;
+            border-radius: 50%; color: var(--primary-green); cursor: pointer;
+            transition: 0.3s; z-index: 10; display: flex; align-items: center; justify-content: center;
+        }
+        .nav-btn:hover { background: white; transform: translateY(-50%) scale(1.1); }
+        .prev { left: 25px; } .next { right: 25px; }
+
+        .slider-dots { display: flex; justify-content: center; gap: 12px; margin-top: 25px; }
+        .dot { width: 12px; height: 12px; border-radius: 50%; background: #a8b9b5; cursor: pointer; transition: 0.4s; }
+        .dot.active { background: var(--primary-green); width: 35px; border-radius: 10px; }
+
+        @media (max-width: 768px) {
+            .doc-tabs { grid-template-columns: 1fr; }
+            .scroll-frame { height: 500px; }
+            .slide img { height: 350px; }
+            h1 { font-size: 1.7rem; }
+            .viewer-header { flex-direction: column; gap: 15px; text-align: center; }
+        }
+    </style>
+</head>
+<body onload="document.body.style.opacity='1'">
+
+    <div class="container">
+        <header class="animate__animated animate__fadeIn">
+            <div class="back-nav">
+                <a href="transparansi.html" class="back-link"><i class="fas fa-arrow-left"></i> Kembali ke Transparansi</a>
+            </div>
+            <h1>Transparansi Publik 2023</h1>
+            <p style="color: var(--eco-medium); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-top: 5px;">BUMDesa Mappakengka Buana Paselloreng</p>
+        </header>
+
+        <div class="doc-tabs animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+            <div id="tabLpj" class="tab-btn active" onclick="showContent('lpj')">
+                <i class="fas fa-file-invoice-dollar"></i>
+                <span>LPJ 2023</span>
+            </div>
+            <div id="tabMusdes" class="tab-btn" onclick="showContent('musdes')">
+                <i class="fas fa-file-signature"></i>
+                <span>Berita Acara</span>
+            </div>
+            <div id="tabDokumentasi" class="tab-btn" onclick="showContent('dokumentasi')">
+                <i class="fas fa-images"></i>
+                <span>Dokumentasi</span>
+            </div>
+        </div>
+
+        <div class="viewer-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="viewer-header">
+                <h2 id="viewTitle" style="font-size: 1.3rem; color: var(--primary-green); font-weight: 800;">Laporan Pertanggungjawaban 2023</h2>
+                <a id="downloadBtn" href="files/lpj2023.pdf" download class="btn-download" target="_blank">
+                    <i class="fas fa-cloud-download-alt"></i> Unduh Dokumen
+                </a>
+            </div>
+
+            <div id="paneLpj" class="content-pane active">
+                <div class="scroll-frame">
+                    <iframe src="files/lpj2023.pdf#toolbar=0&navpanes=0&view=FitH"></iframe>
+                </div>
+            </div>
+
+            <div id="paneMusdes" class="content-pane">
+                <div class="scroll-frame">
+                    <iframe src="files/ba2023.pdf#toolbar=0&navpanes=0&view=FitH"></iframe>
+                </div>
+            </div>
+
+            <div id="paneDokumentasi" class="content-pane">
+                <div class="slider-container">
+                    <button class="nav-btn prev" onclick="moveSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <button class="nav-btn next" onclick="moveSlide(1)"><i class="fas fa-chevron-right"></i></button>
+                    
+                    <div class="slider-wrapper" id="sliderWrapper">
+                        <div class="slide">
+                            <img src="images/laporan2023.jpeg" alt="Musdes 2023">
+                            <div class="slide-caption">Pemaparan Laporan Pertanggungjawaban (LPJ) T.A 2023</div>
+                        </div>
+                        <div class="slide">
+                            <img src="images/peserta2023.jpg" alt="Peserta 2023">
+                            <div class="slide-caption">Peserta Musyawarah Desa Pertanggungjawaban 2023</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-dots">
+                    <div class="dot active" onclick="jumpToSlide(0)"></div>
+                    <div class="dot" onclick="jumpToSlide(1)"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showContent(type) {
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.content-pane').forEach(p => p.classList.remove('active'));
+
+            const activeTab = document.getElementById('tab' + type.charAt(0).toUpperCase() + type.slice(1));
+            const activePane = document.getElementById('pane' + type.charAt(0).toUpperCase() + type.slice(1));
+            const title = document.getElementById('viewTitle');
+            const downBtn = document.getElementById('downloadBtn');
+
+            activeTab.classList.add('active');
+            activePane.classList.add('active');
+
+            if(type === 'lpj') {
+                title.innerText = "Laporan Pertanggungjawaban 2023";
+                downBtn.style.visibility = "visible";
+                downBtn.href = "files/lpj2023.pdf";
+            } else if(type === 'musdes') {
+                title.innerText = "Berita Acara Musdes 2023";
+                downBtn.style.visibility = "visible";
+                downBtn.href = "files/ba2023.pdf";
+            } else {
+                title.innerText = "Dokumentasi Musyawarah Desa (16 Mei 2024)";
+                downBtn.style.visibility = "hidden";
+            }
+        }
+
+        let currentSlide = 0;
+        const totalSlides = 2;
+        const wrapper = document.getElementById('sliderWrapper');
+        const dots = document.querySelectorAll('.dot');
+
+        function updateSlider() {
+            if (wrapper) {
+                wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+                dots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === currentSlide);
+                });
+            }
+        }
+
+        function moveSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide >= totalSlides) currentSlide = 0;
+            if (currentSlide < 0) currentSlide = totalSlides - 1;
+            updateSlider();
+            resetTimer(); 
+        }
+
+        function jumpToSlide(index) {
+            currentSlide = index;
+            updateSlider();
+            resetTimer();
+        }
+
+        let slideTimer = setInterval(() => moveSlide(1), 5000);
+
+        function resetTimer() {
+            clearInterval(slideTimer);
+            slideTimer = setInterval(() => moveSlide(1), 5000);
+        }
+    </script>
+
+</body>
+</html>
