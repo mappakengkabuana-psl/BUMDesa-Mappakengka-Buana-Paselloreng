@@ -38,7 +38,7 @@
         .blob-2 { width: 400px; height: 400px; background: var(--eco-medium); bottom: 10%; right: -5%; }
         @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 80px); } }
 
-        /* --- NAVIGATION (Brand Removed) --- */
+        /* --- NAVIGATION --- */
         .nav-wrapper { 
             position: fixed; top: 0; width: 100%; z-index: 1000; 
             padding: 15px 20px; 
@@ -190,19 +190,11 @@
             .nav-wrapper { justify-content: flex-end; padding: 15px 20px; transform: none !important; }
             nav { border-radius: 12px; padding: 0; background: rgba(255, 255, 255, 0.3); }
             .hamburger-menu { display: block; }
-
             nav ul {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 65px; right: 20px;
-                width: 240px;
-                background: rgba(255, 255, 255, 0.95);
-                backdrop-filter: blur(20px);
-                border-radius: 20px;
-                padding: 10px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                border: 1px solid white;
+                display: none; flex-direction: column; position: absolute;
+                top: 65px; right: 20px; width: 240px;
+                background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(20px);
+                border-radius: 20px; padding: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border: 1px solid white;
             }
             nav ul.show { display: flex; animation: fadeInDown 0.3s ease-out forwards; }
             .content-area { margin-top: 80px; }
@@ -213,11 +205,9 @@
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-
     </style>
 </head>
-<body onload="document.body.style.opacity='1'">
+<body>
 
     <div class="bg-blobs">
         <div class="blob blob-1"></div>
@@ -260,19 +250,19 @@
                     </div>
                 </a>
 
-                <a href="mailto:mappakengkabuana@gmail.com" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;" target="_blank">
+                <a href="mailto:mappakengka@gmail.com" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.2s;" target="_blank">
                     <div class="icon-box" style="background: #EA4335;"><i class="fas fa-envelope"></i></div>
                     <div class="contact-text">
                         <h3>Email Resmi</h3>
-                        <p>mappakengkabuana@gmail.com</p>
+                        <p>mappakengka@gmail.com</p>
                     </div>
                 </a>
 
-                <a href="https://web.facebook.com/people/BUM-Desa-Mappakengka-Buana-Paselloreng/61585695863025/#" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;" target="_blank">
+                <a href="https://facebook.com" class="contact-card animate__animated animate__fadeInLeft" style="animation-delay: 0.3s;" target="_blank">
                     <div class="icon-box" style="background: #1877F2;"><i class="fab fa-facebook-f"></i></div>
                     <div class="contact-text">
                         <h3>Media Sosial</h3>
-                        <p>BUM Desa Mappakengka Buana Paselloreng</p>
+                        <p>BUM Desa Mappakengka</p>
                     </div>
                 </a>
 
@@ -286,7 +276,7 @@
             </div>
 
             <div class="map-box animate__animated animate__fadeInRight" style="animation-delay: 0.5s;">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3980.8423550418124!2d120.2282343772094!3d-3.843997586150739!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2d967f002f081de9%3A0x73f1673b2acee1d1!2sBUM%20Desa%20Mappakengka%20Buana%20Paselloreng!5e0!3m2!1sid!2sid!4v1776843229961!5m2!1sid!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15941.52042217631!2d120.176461!3d-3.921319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zM8KwNTUnMTYuNyJTIDEyMMKwMTAnMzUuMyJF!5e0!3m2!1sen!2sid!4v1650000000000!5m2!1sen!2sid" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
 
@@ -333,17 +323,26 @@
     </main>
 
     <script>
-        // 1. Tambahkan ini di paling atas script
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    }
+        // FUNGSI UTAMA UNTUK MENANGANI OPACITY
+        function showPage() {
+            document.body.style.opacity = '1';
+        }
 
-    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
-    window.scrollTo(0, 0);
+        // Jalankan saat load normal
+        window.addEventListener('load', showPage);
 
-    function toggleMenu(event) {
-        // ... kode toggleMenu Anda ...
-    }
+        // Jalankan saat kembali (Back Button) dari cache browser
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                showPage();
+            }
+        });
+
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         function toggleMenu(event) {
             event.stopPropagation();
             document.getElementById("nav-list").classList.toggle("show");
