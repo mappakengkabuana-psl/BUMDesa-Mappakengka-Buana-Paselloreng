@@ -43,7 +43,7 @@
 
         @keyframes float { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 80px); } }
 
-        /* --- NAVIGATION (SESUAI ACUAN) --- */
+        /* --- NAVIGATION --- */
         .nav-wrapper { 
             position: fixed; top: 0; width: 100%; z-index: 1000; 
             padding: 15px 20px; 
@@ -74,7 +74,7 @@
 
         .hamburger-menu { display: none; cursor: pointer; padding: 10px; }
         .hamburger-lines { width: 22px; height: 16px; display: flex; flex-direction: column; justify-content: space-between; }
-        .line { height: 3px; width: 100%; background: var(--primary-green); border-radius: 10px; }
+        .line { height: 3px; width: 100%; background: var(--primary-green); border-radius: 100px; }
 
         /* --- CONTENT AREA --- */
         .content-area { flex: 1 0 auto; max-width: 1000px; margin: 120px auto 60px; padding: 0 20px; width: 100%; }
@@ -156,9 +156,7 @@
         @keyframes fadeInDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body onload="document.body.style.opacity='1';">
-
-    <div class="bg-blobs">
+<body> <div class="bg-blobs">
         <div class="blob blob-1"></div>
         <div class="blob blob-2"></div>
         <div class="blob blob-3"></div>
@@ -247,18 +245,26 @@
     </main>
 
     <script>
-        // 1. Tambahkan ini di paling atas script
-    if (history.scrollRestoration) {
-        history.scrollRestoration = 'manual';
-    }
+        // FUNGSI UTAMA UNTUK MENANGANI OPACITY SAAT BACK/FORWARD
+        function showPage() {
+            document.body.style.opacity = '1';
+        }
 
-    // 2. Tambahkan ini agar saat refresh benar-benar kembali ke atas
-    window.scrollTo(0, 0);
+        // Jalankan saat load normal
+        window.addEventListener('load', showPage);
 
-    function toggleMenu(event) {
-        // ... kode toggleMenu Anda ...
-    }
-    
+        // Perubahan 2: Jalankan saat kembali (Back Button) dari cache browser
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                showPage();
+            }
+        });
+
+        if (history.scrollRestoration) {
+            history.scrollRestoration = 'manual';
+        }
+        window.scrollTo(0, 0);
+
         function toggleMenu(event) {
             event.stopPropagation();
             document.getElementById("nav-list").classList.toggle("show");
@@ -285,7 +291,6 @@
             lastScrollTop = scrollTop;
         });
 
-        // SINKRONISASI TRANSISI KLIK MENU & LINK ARSIP
         document.querySelectorAll('nav a, .archive-item').forEach(link => {
             link.addEventListener('click', function(e) {
                 const target = this.getAttribute('href');
